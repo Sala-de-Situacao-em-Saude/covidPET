@@ -1,0 +1,35 @@
+DROP TABLE IF EXISTS covid_completo;
+CREATE TABLE covid_completo (
+    tempo INTEGER,
+    ano_semana VARCHAR(10),
+    municipio VARCHAR(100),
+    nome_regiao VARCHAR(100),
+    Populacao NUMERIC,
+    caso INTEGER,
+    tx_incid NUMERIC,
+    obito NUMERIC,
+    tx_mort NUMERIC,
+    letalidade NUMERIC,
+    IDSC NUMERIC,
+    IDSC_3 NUMERIC,
+    gini NUMERIC,
+    IVS NUMERIC,
+    IVS_C NUMERIC,
+    IVS_R NUMERIC,
+    IVS_I NUMERIC,
+    IDHM NUMERIC,
+    IDHM_E NUMERIC,
+    IDHM_R NUMERIC,
+    IDHM_L NUMERIC,
+    dens_dem NUMERIC,
+    PIB NUMERIC,
+    TOE NUMERIC,
+    TMI NUMERIC,
+    TxL NUMERIC,
+    percentual_vacinados NUMERIC,
+    percentual_idosos NUMERIC,
+    longitude NUMERIC,
+    latitude NUMERIC
+);
+\copy covid_completo FROM 'covid_completo.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', ENCODING 'UTF8')
+SELECT COUNT(*) as total_registros FROM covid_completo;
