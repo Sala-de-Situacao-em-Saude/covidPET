@@ -1,0 +1,62 @@
+# 🔗 STRING DE CONEXÃO POSTGRESQL PARA SUPERSET
+
+## Copie e cole no Superset:
+
+### Formato SQLAlchemy URI:
+```
+postgresql://postgres:covid2026@localhost:5432/superset
+```
+
+## Exemplo (substitua SUA_SENHA_AQUI pela senha real):
+```
+postgresql://postgres:covid2026@localhost:5432/superset
+```
+
+---
+
+## Ou use a configuração por campos:
+
+- **Database:** PostgreSQL
+- **Host:** localhost
+- **Port:** 5432
+- **Database name:** superset
+- **Username:** postgres
+- **Password:** [sua senha]
+
+---
+
+## Datasets prontos para adicionar:
+
+1. **superset_poligonos_covid** (139 municípios com geometrias)
+2. **superset_poligonos_covid_temporal** (13.297 registros temporais)
+
+---
+
+## 🔄 JÁ TEM A DATABASE? Como atualizar:
+
+### Atualizar Conexão:
+1. Settings → Database Connections
+2. Clique no ícone de lápis (Edit) ✏️ na sua database PostgreSQL
+3. Atualize as configurações
+4. TEST CONNECTION → SAVE
+
+### Atualizar Dataset (sincronizar colunas):
+1. Data → Datasets
+2. Encontre: superset_poligonos_covid
+3. Três pontos (⋮) → Edit
+4. Aba "Columns" → SYNC COLUMNS FROM SOURCE
+5. SAVE
+
+### Forçar Refresh no Chart:
+- Abra o chart
+- Três pontos (⋮) → Force refresh 🔄
+- Ou pressione Ctrl + R
+
+---
+
+## Teste rápido da conexão:
+
+Execute no PowerShell para confirmar:
+```powershell
+& "C:\Program Files\PostgreSQL\13\bin\psql.exe" -U postgres -d superset -c "SELECT 'Conexão OK! 139 municípios disponíveis' AS status, COUNT(*) AS total FROM superset_poligonos_covid;"
+```
