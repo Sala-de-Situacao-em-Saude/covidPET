@@ -36,7 +36,7 @@ postgresql://postgres:covid2026@localhost:5432/superset
 
 ### Atualizar Conexão:
 1. Settings → Database Connections
-2. Clique no ícone de lápis (Edit) ✏️ na sua database PostgreSQL
+2. Clique no ícone de lápis (Edit) na sua database PostgreSQL
 3. Atualize as configurações
 4. TEST CONNECTION → SAVE
 

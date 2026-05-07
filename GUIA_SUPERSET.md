@@ -1,6 +1,6 @@
 # GUIA: CONFIGURAÇÃO DO PAINEL COVID-19 NO APACHE SUPERSET
 
-## 📊 ARQUIVOS EXPORTADOS
+##  ARQUIVOS EXPORTADOS
 
 Foram gerados 4 arquivos CSV prontos para importação no Superset:
 
@@ -26,7 +26,7 @@ Indicadores totais acumulados
 
 ---
 
-## 🎯 ESTRUTURA DO PAINEL SUPERSET
+##  ESTRUTURA DO PAINEL SUPERSET
 
 ### Cards de Indicadores Principais (KPIs)
 ```
