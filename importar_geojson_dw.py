@@ -105,7 +105,7 @@ SELECT
     c.latitude
 FROM municipios_geojson g
 LEFT JOIN covid_agg c
-    ON UPPER(TRIM(g.municipio_nome)) = c.municipio_norm;
+    ON REGEXP_REPLACE(UPPER(TRIM(g.municipio_nome)), '[^A-Z0-9 ]', '', 'g') = c.municipio_norm;
 """
 
 SQL_VERIFY = """
