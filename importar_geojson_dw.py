@@ -12,17 +12,17 @@ import json
 import sys
 import urllib.request
 
-# ── Configurações do banco DW ─────────────────────────────────────────────────
+# ── Configurações do banco ────────────────────────────────────────────────────
 # Defina as variáveis de ambiente antes de rodar:
-#   export DW_HOST=10.48.75.20
 #   export DW_PASSWORD=sua_senha
+# Padrão: postgresql://integra@10.48.75.21:5432/data_lake
 import os
 
 DB_CONFIG = {
-    'host':     os.environ.get('DW_HOST',     '10.48.75.20'),
+    'host':     os.environ.get('DW_HOST',     '10.48.75.21'),
     'port':     int(os.environ.get('DW_PORT', '5432')),
-    'dbname':   os.environ.get('DW_DBNAME',   'dw'),
-    'user':     os.environ.get('DW_USER',     'postgres'),
+    'dbname':   os.environ.get('DW_DBNAME',   'data_lake'),
+    'user':     os.environ.get('DW_USER',     'integra'),
     'password': os.environ.get('DW_PASSWORD', ''),
 }
 
