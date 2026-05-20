@@ -37,7 +37,7 @@ DROP VIEW IF EXISTS superset_poligonos_covid;
 CREATE OR REPLACE VIEW superset_poligonos_covid AS
 WITH covid_agg AS (
     SELECT
-        UPPER(TRIM(municipio)) AS municipio_norm,
+        REGEXP_REPLACE(UPPER(TRIM(municipio)), '[^A-Z0-9 ]', '', 'g') AS municipio_norm,
         SUM(caso)        AS caso,
         SUM(obito)       AS obito,
         AVG(tx_incid)    AS tx_incid,
@@ -59,7 +59,7 @@ WITH covid_agg AS (
         AVG(longitude)   AS longitude,
         AVG(latitude)    AS latitude
     FROM covid_completo
-    GROUP BY UPPER(TRIM(municipio))
+    GROUP BY REGEXP_REPLACE(UPPER(TRIM(municipio)), '[^A-Z0-9 ]', '', 'g')
 )
 SELECT
     g.municipio_id,
@@ -76,7 +76,8 @@ SELECT
     c.idsc, c.gini, c.dens_dem, c.pib,
     c.longitude, c.latitude
 FROM municipios_geojson g
-LEFT JOIN covid_agg c ON UPPER(TRIM(g.municipio_nome)) = c.municipio_norm;
+LEFT JOIN covid_agg c
+    ON REGEXP_REPLACE(UPPER(TRIM(g.municipio_nome)), '[^A-Z0-9 ]', '', 'g') = c.municipio_norm;
 
 CREATE OR REPLACE VIEW superset_poligonos_covid_temporal AS
 SELECT
@@ -96,7 +97,9 @@ SELECT
     cc.longitude,
     cc.latitude
 FROM municipios_geojson g
-LEFT JOIN covid_completo cc ON UPPER(TRIM(g.municipio_nome)) = UPPER(TRIM(cc.municipio));
+LEFT JOIN covid_completo cc
+    ON REGEXP_REPLACE(UPPER(TRIM(g.municipio_nome)), '[^A-Z0-9 ]', '', 'g') =
+       REGEXP_REPLACE(UPPER(TRIM(cc.municipio)), '[^A-Z0-9 ]', '', 'g');
 
 -- Verificar matches
 SELECT
