@@ -5,7 +5,12 @@
 -- 1. Adicionar coluna
 ALTER TABLE covid_completo ADD COLUMN IF NOT EXISTS municipioibge VARCHAR(20);
 
--- 2. Popular a partir de covid_municipio (join por nome)
+-- 2. Habilitar UPDATE em tabelas com replicação lógica sem PK
+--    FULL é necessário pois não há PK nem índice único na tabela
+ALTER TABLE public.covid_completo REPLICA IDENTITY FULL;
+ALTER TABLE covid_tocantins.covid_completo REPLICA IDENTITY FULL;
+
+-- 3. Popular a partir de covid_municipio (join por nome)
 UPDATE covid_completo cc
 SET municipioibge = cm.municipioibge
 FROM (
@@ -14,10 +19,10 @@ FROM (
 ) cm
 WHERE UPPER(TRIM(cc.municipio)) = UPPER(TRIM(cm.municipio));
 
--- 3. Índice
+-- 4. Índice
 CREATE INDEX IF NOT EXISTS idx_covid_completo_ibge ON covid_completo(municipioibge);
 
--- 4. Verificar resultado
+-- 5. Verificar resultado
 SELECT
     COUNT(*)                                        AS total_registros,
     COUNT(municipioibge)                            AS com_codigo,
