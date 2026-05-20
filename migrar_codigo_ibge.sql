@@ -80,7 +80,12 @@ SELECT
     c.longitude, c.latitude
 FROM municipios_geojson g
 LEFT JOIN covid_agg c
-    ON unaccent(UPPER(TRIM(g.municipio_nome))) = c.municipio_norm;
+    ON unaccent(UPPER(TRIM(
+        CASE g.municipio_nome
+            WHEN 'Tabocão' THEN 'Fortaleza do Tabocão'
+            ELSE g.municipio_nome
+        END
+    ))) = c.municipio_norm;
 
 CREATE OR REPLACE VIEW superset_poligonos_covid_temporal AS
 SELECT
