@@ -31,6 +31,9 @@ FROM covid_completo;
 
 -- ─── Reescrever views usando código IBGE (sem normalização de nome) ────────────
 
+DROP VIEW IF EXISTS superset_poligonos_covid_temporal;
+DROP VIEW IF EXISTS superset_poligonos_covid;
+
 CREATE OR REPLACE VIEW superset_poligonos_covid AS
 WITH covid_agg AS (
     SELECT
