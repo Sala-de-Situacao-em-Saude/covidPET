@@ -2,6 +2,9 @@
 -- Banco: postgresql://integra:***@10.48.75.21:5432/data_lake
 -- Execute via psql ou Superset SQL Lab
 
+-- 0. Extensão para normalização de acentos
+CREATE EXTENSION IF NOT EXISTS unaccent;
+
 -- 1. Adicionar coluna
 ALTER TABLE covid_completo ADD COLUMN IF NOT EXISTS municipioibge VARCHAR(20);
 
@@ -37,7 +40,7 @@ DROP VIEW IF EXISTS superset_poligonos_covid;
 CREATE OR REPLACE VIEW superset_poligonos_covid AS
 WITH covid_agg AS (
     SELECT
-        REGEXP_REPLACE(UPPER(TRIM(municipio)), '[^A-Z0-9 ]', '', 'g') AS municipio_norm,
+        unaccent(UPPER(TRIM(municipio))) AS municipio_norm,
         SUM(caso)        AS caso,
         SUM(obito)       AS obito,
         AVG(tx_incid)    AS tx_incid,
@@ -59,7 +62,7 @@ WITH covid_agg AS (
         AVG(longitude)   AS longitude,
         AVG(latitude)    AS latitude
     FROM covid_completo
-    GROUP BY REGEXP_REPLACE(UPPER(TRIM(municipio)), '[^A-Z0-9 ]', '', 'g')
+    GROUP BY unaccent(UPPER(TRIM(municipio)))
 )
 SELECT
     g.municipio_id,
@@ -77,7 +80,7 @@ SELECT
     c.longitude, c.latitude
 FROM municipios_geojson g
 LEFT JOIN covid_agg c
-    ON REGEXP_REPLACE(UPPER(TRIM(g.municipio_nome)), '[^A-Z0-9 ]', '', 'g') = c.municipio_norm;
+    ON unaccent(UPPER(TRIM(g.municipio_nome))) = c.municipio_norm;
 
 CREATE OR REPLACE VIEW superset_poligonos_covid_temporal AS
 SELECT
@@ -98,8 +101,7 @@ SELECT
     cc.latitude
 FROM municipios_geojson g
 LEFT JOIN covid_completo cc
-    ON REGEXP_REPLACE(UPPER(TRIM(g.municipio_nome)), '[^A-Z0-9 ]', '', 'g') =
-       REGEXP_REPLACE(UPPER(TRIM(cc.municipio)), '[^A-Z0-9 ]', '', 'g');
+    ON unaccent(UPPER(TRIM(g.municipio_nome))) = unaccent(UPPER(TRIM(cc.municipio)));
 
 -- Verificar matches
 SELECT
