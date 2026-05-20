@@ -62,7 +62,7 @@ WITH covid_agg AS (
 SELECT
     g.municipio_id,
     g.municipio_nome,
-    g.geometry_json,
+    g.geometry_json::text AS geometry_json,
     COALESCE(c.caso, 0)  AS caso,
     COALESCE(c.obito, 0) AS obito,
     c.tx_incid,
@@ -80,7 +80,7 @@ CREATE OR REPLACE VIEW superset_poligonos_covid_temporal AS
 SELECT
     g.municipio_id,
     g.municipio_nome,
-    g.geometry_json,
+    g.geometry_json::text AS geometry_json,
     cc.tempo,
     cc.ano_semana,
     cc.caso,
